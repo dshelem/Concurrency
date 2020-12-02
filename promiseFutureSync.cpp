@@ -1,3 +1,9 @@
+/*
+    Using promise and future for communication btw threads
+
+    Author Denis Shelemekh © 2020
+*/
+
 #include <future>
 #include <iostream>
 #include <utility>

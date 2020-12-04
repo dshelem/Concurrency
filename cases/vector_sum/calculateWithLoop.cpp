@@ -5,17 +5,7 @@
 
 constexpr long SIZE = 100'000'000;
 
-/*struct StaticStruct {
-    StaticStruct() {
-        std::cout << "StaticStruct()\n";
-    }
-    ~StaticStruct() {
-        std::cout << "~StaticStruct()\n";
-    }
-};*/
-
 short nextRandomNumber() noexcept {
-    //static StaticStruct sc;
     static std::random_device rd;
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<short> distrib(1, 10);
@@ -24,9 +14,8 @@ short nextRandomNumber() noexcept {
 }
 
 void initVector(std::vector<short>& vec, short (*func)()) {
-    vec.reserve(SIZE);
     for(auto i = 0L; i < SIZE; ++i) {
-        vec.push_back((*func)());
+        vec[i] = func();
     }
 }
 
@@ -39,10 +28,10 @@ long long sumVector(std::vector<short>& vec) noexcept {
 }
 
 int main() {
-    std::vector<short> vec;
+    std::vector<short> vec(SIZE);
 
     auto start = std::chrono::steady_clock::now();
-    initVector(vec, &nextRandomNumber);
+    initVector(vec, nextRandomNumber);
     auto finish = std::chrono::steady_clock::now();
     std::chrono::duration<double> duration = finish - start;
     std::cout << "init duration = " << duration.count() << " secs\n";
